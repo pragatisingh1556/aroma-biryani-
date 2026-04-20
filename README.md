@@ -1,4 +1,4 @@
-# Aroma Biriyani 🍛
+# Aroma Biriyani 
 
 A full stack food ordering web application built with React, Node.js and MySQL.
 
