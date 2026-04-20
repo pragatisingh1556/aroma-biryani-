@@ -1,0 +1,207 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg:        #0d0d0d;
+  --bg2:       #1a1a1a;
+  --bg3:       #080808;
+  --card:      #1a1a1a;
+  --card2:     #222222;
+  --border:    #2e2e2e;
+  --text:      #f5f5f5;
+  --text2:     #aaaaaa;
+  --text3:     #777;
+  --brand:     #d4580a;
+  --brand2:    #ff8c00;
+  --input-bg:  #222222;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--bg);
+  color: var(--text);
+}
+
+a { text-decoration: none; }
+
+table { border-collapse: collapse; width: 100%; }
+th, td { padding: 12px 16px; text-align: left; }
+
+/* ─── Scrollbar ─────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--brand); border-radius: 3px; }
+
+/* ─── Animations ────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.page-enter { animation: fadeUp 0.38s ease both; }
+
+/* ─── Card Hover Lift ───────────────────── */
+.card-hover {
+  transition: transform 0.24s ease, box-shadow 0.24s ease;
+}
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 36px rgba(212, 88, 10, 0.22) !important;
+}
+
+/* ─── Brand Gradient Button ─────────────── */
+.btn-brand {
+  background: linear-gradient(135deg, #d4580a 0%, #ff7020 100%) !important;
+  box-shadow: 0 4px 14px rgba(212, 88, 10, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.18s ease, opacity 0.15s;
+}
+.btn-brand:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(212, 88, 10, 0.55) !important;
+}
+.btn-brand:active { transform: translateY(0); opacity: 0.9; }
+
+/* ─── Outline Button ────────────────────── */
+.btn-outline {
+  transition: background 0.18s, color 0.18s, transform 0.15s;
+}
+.btn-outline:hover {
+  background: rgba(212, 88, 10, 0.12) !important;
+  transform: translateY(-1px);
+}
+
+/* ─── Nav Links ─────────────────────────── */
+.nav-link {
+  position: relative;
+  transition: color 0.2s ease !important;
+}
+.nav-link:hover { color: #d4580a !important; }
+
+/* ─── Input / Select Focus Glow ─────────── */
+input, select, textarea {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: #d4580a !important;
+  box-shadow: 0 0 0 3px rgba(212, 88, 10, 0.18);
+  outline: none;
+}
+
+/* ─── Image Zoom on Hover ───────────────── */
+.img-zoom { overflow: hidden; }
+.img-zoom img {
+  transition: transform 0.42s ease;
+}
+.img-zoom:hover img { transform: scale(1.07); }
+
+/* ─── Category Pill ─────────────────────── */
+.cat-pill {
+  transition: all 0.2s ease;
+}
+.cat-pill:hover:not(.cat-pill-active) {
+  background: rgba(212, 88, 10, 0.15) !important;
+  transform: translateY(-1px);
+}
+
+/* ─── Add to Cart Button ────────────────── */
+.add-btn {
+  background: linear-gradient(135deg, #d4580a, #ff7020) !important;
+  transition: transform 0.16s, box-shadow 0.16s;
+  box-shadow: 0 3px 10px rgba(212, 88, 10, 0.3);
+}
+.add-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 6px 18px rgba(212, 88, 10, 0.5);
+}
+
+/* ─── Qty Buttons ───────────────────────── */
+.qty-btn {
+  transition: background 0.15s, transform 0.12s;
+}
+.qty-btn:hover {
+  background: rgba(212, 88, 10, 0.15) !important;
+  transform: scale(1.1);
+}
+
+/* ─── Table Row Hover ───────────────────── */
+.table-row {
+  transition: background 0.15s;
+}
+.table-row:hover { background: rgba(212, 88, 10, 0.06); }
+
+/* ─── Badge Pulse ───────────────────────── */
+@keyframes badgePop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+.badge-pop { animation: badgePop 0.3s ease; }
+
+/* ─── Section Title Accent ──────────────── */
+.section-title {
+  position: relative;
+  padding-left: 14px;
+}
+.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 3px;
+  bottom: 3px;
+  width: 4px;
+  background: linear-gradient(180deg, #d4580a, #ff8c00);
+  border-radius: 4px;
+}
+
+/* ─── Gradient Text ─────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #d4580a, #ff8c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Glowing Card ──────────────────────── */
+.glow-card {
+  box-shadow: 0 0 0 1px #2e2e2e;
+  transition: box-shadow 0.25s ease;
+}
+.glow-card:hover {
+  box-shadow: 0 0 0 1px rgba(212,88,10,0.4), 0 8px 28px rgba(212,88,10,0.15);
+}
+
+/* ─── Smooth page load ──────────────────── */
+button { cursor: pointer; }
+
+/* ─── Footer Links ──────────────────────── */
+footer a:hover,
+footer .footer-link:hover {
+  color: #d4580a !important;
+}
+
+/* ─── Responsive Footer ─────────────────── */
+@media (max-width: 640px) {
+  footer .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+  footer .footer-stats {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+button:focus { outline: none; }
