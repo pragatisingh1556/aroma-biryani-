@@ -35,7 +35,9 @@ const AdminDashboard = () => {
         blogs: '/admin/blogs',
         media: '/media',
       };
-      if (tab === 'points') return;
+      // These tabs manage their own state (no server fetch needed)
+      if (tab === 'points' || tab === 'payments') return;
+      if (!endpoints[tab]) return;
       const { data: res } = await API.get(endpoints[tab]);
       setData(res);
       if (tab === 'products' || tab === 'combos') {

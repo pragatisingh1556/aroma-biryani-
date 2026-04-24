@@ -4,11 +4,13 @@ import API from '../api/axios';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 
 const Offers = () => {
   const [coupons, setCoupons] = useState([]);
   const { setCoupon, subtotal } = useCart();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,6 +18,11 @@ const Offers = () => {
   }, []);
 
   const applyOffer = async (code) => {
+    if (!user) {
+      toast.error('Please login to apply coupons');
+      navigate('/login');
+      return;
+    }
     if (subtotal === 0) { toast.error('Add items to cart first'); navigate('/'); return; }
     try {
       const { data } = await API.post('/coupons/apply', { code, order_amount: subtotal });

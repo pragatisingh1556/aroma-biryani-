@@ -6,6 +6,7 @@ import ProductCard from '../components/ProductCard';
 import BannerSlider from '../components/BannerSlider';
 import CartBar from '../components/CartBar';
 import Footer from '../components/Footer';
+import toast from 'react-hot-toast';
 
 // Fallback What's New cards (shown when admin hasn't added enough entries)
 const DEFAULT_WHATS_NEW = [
@@ -61,7 +62,10 @@ const Home = () => {
       if (search) params.search = search;
       const { data } = await API.get('/products', { params });
       setProducts(data);
-    } catch (err) { console.error(err); }
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to load products. Please try refreshing.');
+    }
   }, [selectedCategory, search]);
 
   useEffect(() => {
@@ -77,7 +81,10 @@ const Home = () => {
         setWhatsNew(blogRes.data.filter(b => b.tag === 'whats_new'));
         setBlogs(blogRes.data.filter(b => b.tag === 'blog'));
         fetchProducts();
-      } catch (err) { console.error(err); }
+      } catch (err) {
+        console.error(err);
+        toast.error('Failed to load menu. Please try refreshing.');
+      }
       finally { setLoading(false); }
     };
     fetchAll();

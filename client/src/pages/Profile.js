@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import API from '../api/axios';
 import Navbar from '../components/Navbar';
@@ -16,6 +17,7 @@ const tierRules = [
 
 const Profile = () => {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [profile, setProfile]   = useState(null);
   const [points, setPoints]     = useState({ balance: 0, history: [] });
   const [pwForm, setPwForm]     = useState({ old_password: '', new_password: '' });
@@ -28,10 +30,24 @@ const Profile = () => {
   const [showAddrForm, setShowAddrForm] = useState(false);
 
   useEffect(() => {
-    API.get('/users/profile').then(({ data }) => setProfile(data));
-    API.get('/users/loyalty-points').then(({ data }) => setPoints(data));
-    API.get('/users/addresses').then(({ data }) => setAddresses(data));
-  }, []);
+    // Auth guard — don't hit protected endpoints when there's no token
+    if (!user) {
+      toast.error('Please login to view your profile');
+      navigate('/login');
+      return;
+    }
+    API.get('/users/profile')
+      .then(({ data }) => setProfile(data))
+      .catch((err) => {
+        toast.error(err.response?.data?.message || 'Could not load profile');
+      });
+    API.get('/users/loyalty-points')
+      .then(({ data }) => setPoints(data))
+      .catch(() => {});
+    API.get('/users/addresses')
+      .then(({ data }) => setAddresses(data))
+      .catch(() => {});
+  }, [user, navigate]);
 
   const changePassword = async (e) => {
     e.preventDefault();
@@ -44,14 +60,26 @@ const Profile = () => {
 
   const saveAddress = async (e) => {
     e.preventDefault();
+    if (!user) {
+      toast.error('Please login to save addresses');
+      navigate('/login');
+      return;
+    }
+    // Basic validation — required fields
+    if (!addrForm.address_line.trim() || !addrForm.city.trim()) {
+      toast.error('Address line and city are required');
+      return;
+    }
     try {
       // Clean up payload — send null for empty lat/lng (DB needs null, not empty string)
       const payload = {
         ...addrForm,
+        address_line: addrForm.address_line.trim(),
+        city: addrForm.city.trim(),
         lat: addrForm.lat !== '' ? parseFloat(addrForm.lat) : null,
         lng: addrForm.lng !== '' ? parseFloat(addrForm.lng) : null,
-        locality: addrForm.locality || null,
-        pincode: addrForm.pincode || null,
+        locality: addrForm.locality?.trim() || null,
+        pincode: addrForm.pincode?.trim() || null,
       };
       if (editAddrId) {
         await API.put(`/users/addresses/${editAddrId}`, payload);

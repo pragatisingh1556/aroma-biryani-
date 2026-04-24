@@ -33,9 +33,18 @@ const Cart = () => {
   }, [user]);
 
   const applyC = async () => {
+    if (!user) {
+      toast.error('Please login to apply coupons');
+      navigate('/login');
+      return;
+    }
+    if (!couponCode.trim()) {
+      toast.error('Please enter a coupon code');
+      return;
+    }
     try {
-      const { data } = await API.post('/coupons/apply', { code: couponCode, order_amount: subtotal });
-      setCoupon({ code: couponCode, discount: data.discount, title: data.coupon_title });
+      const { data } = await API.post('/coupons/apply', { code: couponCode.trim(), order_amount: subtotal });
+      setCoupon({ code: couponCode.trim(), discount: data.discount, title: data.coupon_title });
       toast.success(`🎉 Coupon applied! Saved ₹${data.discount}`);
     } catch (err) {
       toast.error(err.response?.data?.message || 'Invalid coupon');
