@@ -8,6 +8,7 @@ import Footer from '../components/Footer';
 import toast from 'react-hot-toast';
 
 const Cart = () => {
+  // eslint-disable-next-line no-unused-vars
   const { cart, removeFromCart, updateQuantity, subtotal, discount, total, coupon, setCoupon, clearCart } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();

@@ -8,6 +8,7 @@ const AdminDashboard = () => {
   const [tab, setTab] = useState('orders');
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [products, setProducts] = useState([]);
 
   // Forms
